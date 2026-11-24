@@ -1,0 +1,157 @@
+{
+  "proportion_tests": [
+    {
+      "test_id": "sub_vs_nonsub_repeat",
+      "title": "Subscription vs Non-Subscription Repeat Purchase Rate (Mature Buyers)",
+      "method": "Two-Proportion Z-Test (Two-Sided)",
+      "group_a": {
+        "label": "Subscribers",
+        "successes": 3018,
+        "n": 3066,
+        "rate_pct": 98.43
+      },
+      "group_b": {
+        "label": "Non-Subscribers",
+        "successes": 4140,
+        "n": 8069,
+        "rate_pct": 51.31
+      },
+      "difference_pp": 47.13,
+      "ci_95_pp": [
+        45.95,
+        48.3
+      ],
+      "z_statistic": 46.359,
+      "p_value": 0.0,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Correlation (Non-Causal)",
+      "causal_caveat": "Strong selection bias exists: customers with ongoing chronic refill needs self-select into subscriptions. Observational parity proves association, not causal lift; run a randomized subscription-nudge holdout to measure causal incremental retention."
+    },
+    {
+      "test_id": "mobile_web_vs_app_checkout",
+      "title": "Native App vs Mobile Web Cart-to-Checkout Progression Rate",
+      "method": "Two-Proportion Z-Test (Two-Sided)",
+      "group_a": {
+        "label": "Native App (Android/iOS)",
+        "successes": 29081,
+        "n": 34431,
+        "rate_pct": 84.46
+      },
+      "group_b": {
+        "label": "Mobile Web",
+        "successes": 7634,
+        "n": 14264,
+        "rate_pct": 53.52
+      },
+      "difference_pp": 30.94,
+      "ci_95_pp": [
+        30.04,
+        31.85
+      ],
+      "z_statistic": 72.151,
+      "p_value": 0.0,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Correlation (Non-Causal)",
+      "causal_caveat": "Partly reflects user intent mix (returning refillers skew toward Native App while paid/social new visitors skew toward Mobile Web), combined with Mobile Web authentication and checkout UX friction. Validate UX fixes via A/B test on Mobile Web checkout."
+    },
+    {
+      "test_id": "q2_2026_vs_baseline_m1",
+      "title": "Q2 2026 Cohorts (Apr\u2013Jun) vs Baseline (Oct\u2013Feb) Month-1 Retention",
+      "method": "Two-Proportion Z-Test (Two-Sided)",
+      "group_a": {
+        "label": "Q2 2026 Cohorts",
+        "successes": 944,
+        "n": 3987,
+        "rate_pct": 23.68
+      },
+      "group_b": {
+        "label": "Baseline Cohorts (Oct\u2013Feb)",
+        "successes": 1254,
+        "n": 4204,
+        "rate_pct": 29.83
+      },
+      "difference_pp": -6.15,
+      "ci_95_pp": [
+        -8.06,
+        -4.24
+      ],
+      "z_statistic": -6.28,
+      "p_value": 3.3768e-10,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Correlation (Non-Causal)",
+      "causal_caveat": "Coincides with aggressive Q2 Social Media (SPRINGBLITZ) and Affiliate (AFFILFLASH) 22\u201325% discount acquisition campaigns that shifted channel mix toward promo-sensitive one-time buyers."
+    },
+    {
+      "test_id": "tier3_vs_tier1_cancellations",
+      "title": "Tier 3 Cities (Lucknow, Indore) vs Tier 1 Cities Order Cancellation Rate",
+      "method": "Two-Proportion Z-Test (Two-Sided)",
+      "group_a": {
+        "label": "Tier 3 Cities",
+        "successes": 445,
+        "n": 2411,
+        "rate_pct": 18.46
+      },
+      "group_b": {
+        "label": "Tier 1 Cities",
+        "successes": 3772,
+        "n": 36348,
+        "rate_pct": 10.38
+      },
+      "difference_pp": 8.08,
+      "ci_95_pp": [
+        6.5,
+        9.66
+      ],
+      "z_statistic": 12.338,
+      "p_value": 5.6639e-35,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Correlation (Non-Causal)",
+      "causal_caveat": "Driven by longer promised and actual delivery SLAs (4+ days), higher Cash-on-Delivery share, and monsoon transit bottlenecks rather than city demand alone."
+    },
+    {
+      "test_id": "chronic_vs_nonchronic_repeat",
+      "title": "Chronic Refill Categories vs Non-Chronic First-Order Repeat Rate",
+      "method": "Two-Proportion Z-Test (Two-Sided)",
+      "group_a": {
+        "label": "Chronic Refill First Category",
+        "successes": 2825,
+        "n": 3659,
+        "rate_pct": 77.21
+      },
+      "group_b": {
+        "label": "Acute / Wellness / Devices First Category",
+        "successes": 4333,
+        "n": 7476,
+        "rate_pct": 57.96
+      },
+      "difference_pp": 19.25,
+      "ci_95_pp": [
+        17.49,
+        21.01
+      ],
+      "z_statistic": 19.91,
+      "p_value": 3.3222e-88,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Correlation (Non-Causal)",
+      "causal_caveat": "Reflects intrinsic replenishment frequency of ongoing healthcare needs versus episodic acute purchases."
+    }
+  ],
+  "continuous_tests": [
+    {
+      "test_id": "sub_vs_nonsub_orders_per_customer",
+      "title": "Delivered Orders per Customer: Subscribers vs Non-Subscribers (Mature Buyers)",
+      "method": "Mann-Whitney U & Welch's Two-Sample t-Test",
+      "subscriber_mean": 6.81,
+      "subscriber_median": 6.0,
+      "non_subscriber_mean": 1.91,
+      "non_subscriber_median": 2.0,
+      "ratio_mean": 3.57,
+      "mann_whitney_u": 23249029.5,
+      "mann_whitney_p": 0.0,
+      "welch_t": 76.758,
+      "welch_p": 0.0,
+      "statistically_significant_95": true,
+      "evidence_type": "Observational Association (Selection Bias Present)"
+    }
+  ]
+}

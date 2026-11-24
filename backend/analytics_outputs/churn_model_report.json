@@ -1,0 +1,192 @@
+{
+  "train_cutoff": "2026-04-30",
+  "train_outcome_window": "2026-05-01 to 2026-07-31 (92 days)",
+  "test_cutoff": "2026-07-31",
+  "test_outcome_window": "2026-08-01 to 2026-10-31 (92 days)",
+  "score_as_of_date": "2026-10-31",
+  "train_rows": 7093,
+  "test_rows": 11135,
+  "scored_buyers": 14800,
+  "train_churn_rate": 0.5109,
+  "test_churn_rate": 0.6121,
+  "null_feature_counts_train": {
+    "recency_days": 0,
+    "order_count": 0,
+    "lifetime_spend": 0,
+    "avg_order_value": 0,
+    "tenure_days": 0,
+    "sessions_90d": 0,
+    "cancel_rate": 0,
+    "chronic_share": 0,
+    "has_active_sub": 0,
+    "orders_last_90d": 0,
+    "city_tier": 0,
+    "acquisition_channel": 0,
+    "primary_device": 0,
+    "age_band": 0
+  },
+  "selected_model": "HistGradientBoosting (Regularized)",
+  "model_comparison": [
+    {
+      "model_name": "Naive Majority Baseline",
+      "precision": 0.6121,
+      "recall": 1.0,
+      "f1_score": 0.7594,
+      "roc_auc": 0.5,
+      "roc_auc_ci_95": [
+        0.5,
+        0.5
+      ],
+      "pr_auc": 0.6121,
+      "brier_score": 0.2477,
+      "confusion_matrix": {
+        "tn": 0,
+        "fp": 4319,
+        "fn": 0,
+        "tp": 6816
+      }
+    },
+    {
+      "model_name": "Logistic Regression (L2)",
+      "precision": 0.7601,
+      "recall": 0.8391,
+      "f1_score": 0.7976,
+      "roc_auc": 0.787,
+      "roc_auc_ci_95": [
+        0.7775,
+        0.7957
+      ],
+      "pr_auc": 0.8288,
+      "brier_score": 0.1743,
+      "confusion_matrix": {
+        "tn": 2514,
+        "fp": 1805,
+        "fn": 1097,
+        "tp": 5719
+      }
+    },
+    {
+      "model_name": "HistGradientBoosting (Regularized)",
+      "precision": 0.7584,
+      "recall": 0.8294,
+      "f1_score": 0.7923,
+      "roc_auc": 0.7967,
+      "roc_auc_ci_95": [
+        0.789,
+        0.8044
+      ],
+      "pr_auc": 0.8464,
+      "brier_score": 0.171,
+      "confusion_matrix": {
+        "tn": 2518,
+        "fp": 1801,
+        "fn": 1163,
+        "tp": 5653
+      }
+    }
+  ],
+  "top_logistic_drivers": [
+    {
+      "feature": "has_active_sub",
+      "log_odds_coef": -1.106,
+      "direction": "Reduces Churn Risk"
+    },
+    {
+      "feature": "primary_device_Mobile Web",
+      "log_odds_coef": 0.4498,
+      "direction": "Increases Churn Risk"
+    },
+    {
+      "feature": "city_tier_Tier 3",
+      "log_odds_coef": 0.4154,
+      "direction": "Increases Churn Risk"
+    },
+    {
+      "feature": "recency_days",
+      "log_odds_coef": 0.3172,
+      "direction": "Increases Churn Risk"
+    },
+    {
+      "feature": "city_tier_Tier 1",
+      "log_odds_coef": -0.2949,
+      "direction": "Reduces Churn Risk"
+    },
+    {
+      "feature": "sessions_90d",
+      "log_odds_coef": -0.2944,
+      "direction": "Reduces Churn Risk"
+    },
+    {
+      "feature": "order_count",
+      "log_odds_coef": -0.2786,
+      "direction": "Reduces Churn Risk"
+    },
+    {
+      "feature": "lifetime_spend",
+      "log_odds_coef": 0.2213,
+      "direction": "Increases Churn Risk"
+    },
+    {
+      "feature": "chronic_share",
+      "log_odds_coef": -0.2143,
+      "direction": "Reduces Churn Risk"
+    },
+    {
+      "feature": "orders_last_90d",
+      "log_odds_coef": 0.1852,
+      "direction": "Increases Churn Risk"
+    }
+  ],
+  "slice_analysis": [
+    {
+      "slice": "City Tier: Tier 1",
+      "n": 8210,
+      "actual_churn_rate": 0.5889,
+      "roc_auc": 0.7928,
+      "precision": 0.7438,
+      "recall": 0.7979
+    },
+    {
+      "slice": "City Tier: Tier 2",
+      "n": 2243,
+      "actual_churn_rate": 0.6585,
+      "roc_auc": 0.7914,
+      "precision": 0.7765,
+      "recall": 0.8917
+    },
+    {
+      "slice": "City Tier: Tier 3",
+      "n": 682,
+      "actual_churn_rate": 0.739,
+      "roc_auc": 0.7889,
+      "precision": 0.8371,
+      "recall": 0.9484
+    },
+    {
+      "slice": "Non-Subscriber",
+      "n": 9120,
+      "actual_churn_rate": 0.7285,
+      "roc_auc": 0.6707,
+      "precision": 0.7586,
+      "recall": 0.8508
+    },
+    {
+      "slice": "Active Subscriber",
+      "n": 2015,
+      "actual_churn_rate": 0.0854,
+      "roc_auc": 0.5745,
+      "precision": 0.0,
+      "recall": 0.0
+    }
+  ],
+  "current_risk_distribution": {
+    "High": 6506,
+    "Medium": 5497,
+    "Low": 2797
+  },
+  "limitations": [
+    "Correlational risk scoring only: strong predictors (such as subscription status and chronic-category share) reflect customer self-selection and underlying refill cadence rather than a causal retention lift.",
+    "Seasonal acute categories (OTC Pain & Fever, Monsoon Digestive Care) have naturally episodic >90-day purchase gaps that the 90-day churn definition flags as inactive even when customers remain loyal during next seasonal need.",
+    "Trained on synthetic data with stationary macro conditions; production deployment requires monthly drift monitoring, calibration checks, and randomized uplift testing before automating discount spend."
+  ]
+}

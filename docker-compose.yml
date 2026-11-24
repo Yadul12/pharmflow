@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: pharmflow-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pharmflow}
+      POSTGRES_USER: ${POSTGRES_USER:-pharmflow_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pharmflow_pass}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5460}:5432"
+    volumes:
+      - pharmflow_pgdata:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./db/analytical_views.sql:/docker-entrypoint-initdb.d/02_analytical_views.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pharmflow_user} -d ${POSTGRES_DB:-pharmflow}"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: pharmflow-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-pharmflow_user}:${POSTGRES_PASSWORD:-pharmflow_pass}@db:5432/${POSTGRES_DB:-pharmflow}
+      REPORTS_DIR: /app/generated_reports
+      ANALYTICS_OUTPUT_DIR: /app/analytics_outputs
+      RANDOM_SEED: ${RANDOM_SEED:-42}
+    ports:
+      - "${BACKEND_HOST_PORT:-8060}:8000"
+    volumes:
+      - ./generated_reports:/app/generated_reports
+      - ./analytics_outputs:/app/analytics_outputs
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pharmflow-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_HOST_PORT:-3060}:80"
+
+volumes:
+  pharmflow_pgdata:

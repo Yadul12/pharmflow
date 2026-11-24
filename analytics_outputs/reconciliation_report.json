@@ -1,0 +1,168 @@
+{
+  "reconciled_at": "2026-10-31",
+  "total_checks": 20,
+  "passed_checks": 20,
+  "all_passed": true,
+  "checks": [
+    {
+      "metric": "Total Registered Customers",
+      "sql_value": 30000.0,
+      "python_value": 30000.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Distinct Delivered Buyers",
+      "sql_value": 14800.0,
+      "python_value": 14800.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 1: App Visit Sessions",
+      "sql_value": 131733.0,
+      "python_value": 131733.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 2: Product Search Sessions",
+      "sql_value": 96824.0,
+      "python_value": 96824.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 3: Product View Sessions",
+      "sql_value": 78558.0,
+      "python_value": 78558.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 4: Add-to-Cart Sessions",
+      "sql_value": 54700.0,
+      "python_value": 54700.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 5: Checkout Initiated Sessions",
+      "sql_value": 41404.0,
+      "python_value": 41404.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 6: Order Placed Sessions",
+      "sql_value": 35969.0,
+      "python_value": 35969.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Funnel Step 7: Order Delivered Sessions",
+      "sql_value": 30536.0,
+      "python_value": 30536.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Interactive Non-Duplicate Orders == Funnel Step 6",
+      "sql_value": 35969.0,
+      "python_value": 35969.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Repeat Purchase Rate (Delivered Buyers)",
+      "sql_value": 0.547,
+      "python_value": 0.547,
+      "abs_diff": 0.0,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "metric": "Average Days Between Delivered Orders",
+      "sql_value": 45.1119,
+      "python_value": 45.1119,
+      "abs_diff": 0.0,
+      "tolerance": 0.0001,
+      "passed": true
+    },
+    {
+      "metric": "Mature Cohorts Weighted M1 Retention",
+      "sql_value": 0.2641,
+      "python_value": 0.2641,
+      "abs_diff": 0.0,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "metric": "Active Subscriptions Count",
+      "sql_value": 2253.0,
+      "python_value": 2253.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Subscription Cancellation Rate",
+      "sql_value": 0.3622,
+      "python_value": 0.3622,
+      "abs_diff": 0.0,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "metric": "Cancelled Orders (Excl. Duplicate Attempts)",
+      "sql_value": 5433.0,
+      "python_value": 5433.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Total Delivered Net Revenue (INR)",
+      "sql_value": 66404942.94,
+      "python_value": 66404942.94,
+      "abs_diff": 0.0,
+      "tolerance": 0.05,
+      "passed": true
+    },
+    {
+      "metric": "Total Refund Count",
+      "sql_value": 5048.0,
+      "python_value": 5048.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    },
+    {
+      "metric": "Total Refund Amount (INR)",
+      "sql_value": 8552044.33,
+      "python_value": 8552044.33,
+      "abs_diff": 0.0,
+      "tolerance": 0.05,
+      "passed": true
+    },
+    {
+      "metric": "RFM Segment Partition Sum == Total Customers",
+      "sql_value": 30000.0,
+      "python_value": 30000.0,
+      "abs_diff": 0.0,
+      "tolerance": 0,
+      "passed": true
+    }
+  ]
+}

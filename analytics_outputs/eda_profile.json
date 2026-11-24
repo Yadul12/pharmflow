@@ -1,0 +1,126 @@
+{
+  "table_row_counts": {
+    "calendar_dimension": 426,
+    "medicine_categories": 10,
+    "product_catalog": 220,
+    "promotional_campaigns": 12,
+    "customers": 30000,
+    "customer_addresses": 36072,
+    "sessions": 131733,
+    "user_events": 469724,
+    "search_events": 96824,
+    "cart_events": 66792,
+    "subscriptions": 3537,
+    "subscription_events": 17675,
+    "orders": 47746,
+    "order_items": 72513,
+    "payments": 47746,
+    "cancellations": 5829,
+    "refunds": 5048,
+    "customer_segments": 30000
+  },
+  "total_records_across_18_tables": 1061907,
+  "integrity_checks": {
+    "duplicate_customer_codes": 0,
+    "duplicate_order_codes": 0,
+    "flagged_duplicate_order_attempts": 396,
+    "uncancelled_duplicate_attempts": 0,
+    "funnel_monotonicity_violations": 0,
+    "order_item_financial_mismatches": 0,
+    "all_passed": true
+  },
+  "missing_value_analysis": [
+    {
+      "table": "orders",
+      "column": "session_id",
+      "null_count": 11381,
+      "null_pct": 23.84,
+      "expected_reason": "Expected NULL for subscription_auto_refill orders"
+    },
+    {
+      "table": "orders",
+      "column": "subscription_id",
+      "null_count": 36365,
+      "null_pct": 76.16,
+      "expected_reason": "Expected NULL for non-subscription interactive orders"
+    },
+    {
+      "table": "orders",
+      "column": "campaign_id",
+      "null_count": 22420,
+      "null_pct": 46.96,
+      "expected_reason": "Expected NULL for non-promotional full-price orders"
+    },
+    {
+      "table": "orders",
+      "column": "actual_delivery_days",
+      "null_count": 5829,
+      "null_pct": 12.21,
+      "expected_reason": "Expected NULL for cancelled orders"
+    },
+    {
+      "table": "sessions",
+      "column": "primary_category_id",
+      "null_count": 34909,
+      "null_pct": 26.5,
+      "expected_reason": "Expected NULL for bounced sessions without product search"
+    },
+    {
+      "table": "customers",
+      "column": "signup_campaign_id",
+      "null_count": 19425,
+      "null_pct": 64.75,
+      "expected_reason": "Expected NULL for organic/direct non-campaign signups"
+    }
+  ],
+  "outlier_analysis": [
+    {
+      "metric": "Delivered Order Net Amount (INR)",
+      "count": 41220,
+      "mean": 1610.99,
+      "std": 1155.43,
+      "min": 182.29,
+      "p25": 808.78,
+      "median": 1258.18,
+      "p75": 2089.14,
+      "p95": 3955.26,
+      "p99": 5728.0,
+      "max": 14918.05,
+      "iqr_upper_fence": 4009.68,
+      "outlier_count": 1974,
+      "outlier_pct": 4.79
+    },
+    {
+      "metric": "Actual Delivery Days",
+      "count": 41220,
+      "mean": 2.43,
+      "std": 0.74,
+      "min": 2.0,
+      "p25": 2.0,
+      "median": 2.0,
+      "p75": 3.0,
+      "p95": 4.0,
+      "p99": 5.0,
+      "max": 6.0,
+      "iqr_upper_fence": 4.5,
+      "outlier_count": 900,
+      "outlier_pct": 2.18
+    },
+    {
+      "metric": "Session Duration (Seconds)",
+      "count": 131733,
+      "mean": 147.96,
+      "std": 105.13,
+      "min": 10.0,
+      "p25": 55.0,
+      "median": 124.0,
+      "p75": 241.0,
+      "p95": 333.0,
+      "p99": 373.0,
+      "max": 444.0,
+      "iqr_upper_fence": 520.0,
+      "outlier_count": 0,
+      "outlier_pct": 0.0
+    }
+  ]
+}
