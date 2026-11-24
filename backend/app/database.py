@@ -3,8 +3,8 @@ from __future__ import annotations
 import re
 import time
 from contextlib import contextmanager
-from decimal import Decimal
 from datetime import date, datetime
+from decimal import Decimal
 from typing import Any, Generator
 
 import psycopg
@@ -14,16 +14,22 @@ from psycopg_pool import ConnectionPool
 from app.config import DATABASE_URL, DB_SCHEMA, IS_VERCEL
 
 _pool: ConnectionPool | None = None
+_SAFE_SCHEMA = DB_SCHEMA if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", DB_SCHEMA) else "public"
 
 
 def init_pool() -> ConnectionPool:
     global _pool
     if _pool is None:
+        kwargs: dict[str, Any] = {"row_factory": dict_row}
+        if IS_VERCEL:
+            kwargs["prepare_threshold"] = None
         _pool = ConnectionPool(
             conninfo=DATABASE_URL,
-            min_size=2,
-            max_size=12,
-            kwargs={"row_factory": dict_row},
+            min_size=0 if IS_VERCEL else 2,
+            max_size=6 if IS_VERCEL else 12,
+            open=True,
+            check=ConnectionPool.check_connection,
+            kwargs=kwargs,
         )
     return _pool
 
@@ -37,23 +43,14 @@ def close_pool() -> None:
 
 @contextmanager
 def get_conn() -> Generator[psycopg.Connection, None, None]:
-    if IS_VERCEL:
-        with psycopg.connect(
-            DATABASE_URL,
-            row_factory=dict_row,
-            prepare_threshold=None,
-        ) as conn:
-            if DB_SCHEMA and DB_SCHEMA != "public":
-                conn.execute(f"SET search_path TO {DB_SCHEMA}, public;")
-                conn.commit()
-            yield conn
-        return
     pool = init_pool()
     with pool.connection() as conn:
-        if DB_SCHEMA and DB_SCHEMA != "public":
-            conn.execute(f"SET search_path TO {DB_SCHEMA}, public;")
-            conn.commit()
         yield conn
+
+
+def _apply_schema(cur: psycopg.Cursor) -> None:
+    if _SAFE_SCHEMA != "public":
+        cur.execute(f"SET LOCAL search_path TO {_SAFE_SCHEMA}, public;")
 
 
 def _serialize_val(v: Any) -> Any:
@@ -67,6 +64,7 @@ def _serialize_val(v: Any) -> Any:
 def fetch_all(sql: str, params: tuple[Any, ...] | dict[str, Any] | None = None) -> list[dict[str, Any]]:
     with get_conn() as conn:
         with conn.cursor() as cur:
+            _apply_schema(cur)
             cur.execute(sql, params)
             rows = cur.fetchall()
             return [{k: _serialize_val(v) for k, v in r.items()} for r in rows]
@@ -75,6 +73,7 @@ def fetch_all(sql: str, params: tuple[Any, ...] | dict[str, Any] | None = None) 
 def fetch_one(sql: str, params: tuple[Any, ...] | dict[str, Any] | None = None) -> dict[str, Any]:
     with get_conn() as conn:
         with conn.cursor() as cur:
+            _apply_schema(cur)
             cur.execute(sql, params)
             row = cur.fetchone()
             if row is None:
@@ -98,8 +97,6 @@ def execute_readonly_sql(
     if not cleaned:
         raise ValueError("SQL query cannot be empty.")
 
-    # Reject multi-statement batches
-    # Strip string literals & comments before checking semicolons/keywords
     scrubbed = re.sub(r"'[^']*'", "''", cleaned)
     scrubbed = re.sub(r"--[^\n]*", "", scrubbed)
     scrubbed = re.sub(r"/\*.*?\*/", "", scrubbed, flags=re.DOTALL)
@@ -121,6 +118,7 @@ def execute_readonly_sql(
             with conn.cursor() as cur:
                 cur.execute("BEGIN TRANSACTION READ ONLY;")
                 cur.execute("SET LOCAL statement_timeout = '8000ms';")
+                _apply_schema(cur)
 
                 explain_lines: list[str] = []
                 if include_explain and first_token != "EXPLAIN":
@@ -134,8 +132,8 @@ def execute_readonly_sql(
                     cols = [desc.name for desc in cur.description] if cur.description else []
                     rows = [{k: _serialize_val(v) for k, v in r.items()} for r in raw_rows[:capped_limit]]
                     total_fetched = len(raw_rows)
+                    truncated = False
                 else:
-                    # Wrap query to cap rows without breaking LIMIT inside user SQL
                     wrapped = f"SELECT * FROM ({cleaned}) AS _sql_lab_sub LIMIT {capped_limit + 1}"
                     cur.execute(wrapped)
                     raw_rows = cur.fetchall()
@@ -155,7 +153,7 @@ def execute_readonly_sql(
         "columns": cols,
         "rows": rows,
         "row_count": total_fetched,
-        "truncated": bool(first_token != "EXPLAIN" and truncated),
+        "truncated": bool(truncated),
         "execution_ms": elapsed_ms,
         "explain_plan": explain_lines,
     }

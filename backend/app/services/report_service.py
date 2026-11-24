@@ -28,7 +28,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 from app.config import REPORTS_DIR
-from app.database import fetch_all, fetch_one, get_conn
+from app.database import _apply_schema, fetch_all, fetch_one, get_conn
 from app.queries.cancellations import get_cancellation_analytics
 from app.queries.categories import get_category_analytics
 from app.queries.cohorts import get_cohort_analytics
@@ -158,6 +158,7 @@ def _record_report_run(
     raw_bytes = file_path.read_bytes() if file_path.exists() else None
     with get_conn() as conn:
         with conn.cursor() as cur:
+            _apply_schema(cur)
             cur.execute(
                 """
                 INSERT INTO report_runs (
